@@ -1,0 +1,16 @@
+footer{
+    margin-top:70px;
+    background:#222;
+    color:white;
+    text-align:center;
+    padding:40px;
+}
+
+footer h3{
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+footer p{
+    color:#ccc;
+}

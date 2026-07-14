@@ -1,0 +1,74 @@
+.manage-food{
+    display:flex;
+}
+
+.manage-food-content{
+    margin-left:250px;
+    width:100%;
+    padding:30px;
+}
+
+.food-header{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.food-header button{
+    background:#ff6b00;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.manage-food-content input{
+    width:350px;
+    height:40px;
+    padding:0 15px;
+    margin-bottom:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table th{
+    background:#ff6b00;
+    color:white;
+    padding:12px;
+}
+
+table td{
+    padding:12px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+table img{
+    width:70px;
+    height:70px;
+    border-radius:8px;
+    object-fit:cover;
+}
+
+.edit-btn{
+    background:#28a745;
+    color:white;
+    border:none;
+    padding:8px 15px;
+    border-radius:5px;
+    cursor:pointer;
+    margin-right:8px;
+}
+
+.delete-btn{
+    background:red;
+    color:white;
+    border:none;
+    padding:8px 15px;
+    border-radius:5px;
+    cursor:pointer;
+}

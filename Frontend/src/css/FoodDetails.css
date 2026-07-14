@@ -1,0 +1,57 @@
+.food-details{
+    width:90%;
+    margin:50px auto;
+    display:flex;
+    gap:50px;
+    align-items:center;
+}
+
+.food-details img{
+    width:500px;
+    height:400px;
+    object-fit:cover;
+    border-radius:15px;
+}
+
+.food-info{
+    flex:1;
+}
+
+.food-info h1{
+    margin-bottom:20px;
+    color:#333;
+}
+
+.food-info p{
+    margin-bottom:20px;
+    color:#666;
+    line-height:28px;
+}
+
+.food-info h2{
+    color:#ff6b00;
+    margin-bottom:20px;
+}
+
+.food-info input{
+    width:100px;
+    height:45px;
+    margin-bottom:20px;
+    padding-left:10px;
+    font-size:18px;
+}
+
+.food-info button{
+    display:block;
+    background:#ff6b00;
+    color:white;
+    border:none;
+    padding:15px 35px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:17px;
+}
+
+.food-info button:hover{
+    background:#e65c00;
+}
