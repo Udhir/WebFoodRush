@@ -1,36 +1,60 @@
 require("dotenv").config();
 
-const express=require("express");
+const express = require("express");
 
-const cors=require("cors");
+const cors = require("cors");
 
-// filepath: c:\FoodRush\WebFoodRush\Backend\server.js
-const authRoute = require("./route/authRoute");
-const foodRoute = require("./route/foodRoute");
-const cartRoute = require("./route/cartRoute");
+const path = require("path");
 
-const app=express();
+const dashboardRoute = require("./routes/dashboardRoute");
+
+const app = express();
 
 app.use(cors());
 
 app.use(express.json());
 
-app.use("/uploads",express.static("uploads"));
+app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/auth",authRoute);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-app.use("/api/foods",foodRoute);
+app.use("/api/user", require("./route/userRoute"));
+
+app.use("/api/category", require("./route/categoryRoute"));
+
+app.use("/api/food", require("./route/foodRoute"));
+
+app.use("/api/dashboard", dashboardRoute);
 
 
 
-app.listen(process.env.PORT,()=>{
-
-console.log(
-
-`Server Running on ${process.env.PORT}`
-
+app.use(
+"/api/cart",
+require("./route/cartRoute")
 );
 
-});
+app.use(
+"/api/order",
+require("./route/orderRoute")
+);
 
-module.exports = app;
+app.use(
+  "/api/dashboard",
+  require("./route/dashboardRoute")
+);
+
+app.use(
+"/api/profile",
+require("./route/profileRoute")
+);
+
+app.use("/api/food", require("./routes/foodRoute"));
+
+
+
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server Running on Port ${PORT}`);
+});

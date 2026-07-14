@@ -1,58 +1,99 @@
 const {
-addCart,
-getCart,
-updateQuantity,
-deleteCart
-}=require("../model/cartmodel");
+  addCart,
+  getCart,
+  deleteCart,
+  updateQuantity,
+} = require("../model/cartModel");
 
-const add=async(req,res)=>{
+// Add To Cart
+const addToCart = async (req, res) => {
+  try {
+    const { user_id, food_id, quantity } = req.body;
 
-await addCart(
-req.user.id,
-req.body.food_id
-);
+    if (!user_id || !food_id) {
+      return res.status(400).json({
+        message: "Field Empty",
+      });
+    }
 
-res.json({
-message:"Added to cart"
-});
+    const cart = await addCart(
+      user_id,
+      food_id,
+      quantity || 1
+    );
 
+    res.status(201).json({
+      message: "Food Added To Cart",
+      cart,
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: "Add To Cart Failed",
+      e: e.message,
+    });
+  }
 };
 
-const view=async(req,res)=>{
+// Get Cart
+const getCartItems = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-const cart=
-await getCart(req.user.id);
+    const cart = await getCart(id);
 
-res.json(cart);
-
+    res.status(200).json({
+      message: "Cart Fetched Successfully",
+      cart,
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: "Fetch Failed",
+      e: e.message,
+    });
+  }
 };
 
-const update=async(req,res)=>{
+// Update Quantity
+const updateCartQuantity = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { quantity } = req.body;
 
-await updateQuantity(
-req.params.id,
-req.body.quantity
-);
+    const cart = await updateQuantity(id, quantity);
 
-res.json({
-message:"Updated"
-});
-
+    res.status(200).json({
+      message: "Quantity Updated",
+      cart,
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: "Update Failed",
+      e: e.message,
+    });
+  }
 };
 
-const remove=async(req,res)=>{
+// Delete Cart Item
+const deleteCartItem = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-await deleteCart(req.params.id);
+    await deleteCart(id);
 
-res.json({
-message:"Deleted"
-});
-
+    res.status(200).json({
+      message: "Cart Item Deleted",
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: "Delete Failed",
+      e: e.message,
+    });
+  }
 };
 
-module.exports={
-add,
-view,
-update,
-remove
+module.exports = {
+  addToCart,
+  getCartItems,
+  updateCartQuantity,
+  deleteCartItem,
 };

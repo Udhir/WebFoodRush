@@ -1,87 +1,45 @@
-const router=require("express").Router();
+const express = require("express");
 
-const upload=require("../middleware/uploads");
+const router = express.Router();
 
-const auth=require("../middleware/auth");
+const upload = require("../middleware/uploads");
 
-const admin=require("../middleware/admin");
+const {
+  addFood,
+  getFoods,
+  getFoodByID,
+  deleteFood,
+  updateFood,
+} = require("../controller/foodController");
 
-const{
-
-createFood,
-
-fetchFoods,
-
-fetchFood,
-
-editFood,
-
-removeFood,
-
-search
-
-}=require("../controller/foodController");
+const { verifyToken } = require("../middleware/verifyToken");
+const { isAdmin } = require("../middleware/authMiddleware");
 
 router.post(
-
-"/add",
-
-auth,
-
-admin,
-
-upload.single("image"),
-
-createFood
-
+  "/create",
+  verifyToken,
+  isAdmin,
+  upload.single("image"),
+  addFood
 );
 
-router.get(
+router.get("/getAll", getFoods);
 
-"/",
-
-fetchFoods
-
-);
-
-router.get(
-
-"/search/:name",
-
-search
-
-);
-
-router.get(
-
-"/:id",
-
-fetchFood
-
-);
+router.get("/getById/:id", getFoodByID);
 
 router.put(
-
-"/:id",
-
-auth,
-
-admin,
-
-editFood
-
+  "/updateById/:id",
+  verifyToken,
+  isAdmin,
+  upload.single("image"),
+  updateFood
 );
 
 router.delete(
-
-"/:id",
-
-auth,
-
-admin,
-
-removeFood
-
+  "/deleteById/:id",
+  verifyToken,
+  isAdmin,
+  deleteFood
 );
 
-module.exports=router;
+module.exports = router;

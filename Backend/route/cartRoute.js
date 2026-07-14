@@ -1,20 +1,22 @@
-const router=require("express").Router();
+const express = require("express");
 
-const auth=require("../middleware/auth");
+const router = express.Router();
 
-const{
-add,
-view,
-update,
-remove
-}=require("../controller/cartcontroller");
+const {
+  addToCart,
+  getCartItems,
+  updateCartQuantity,
+  deleteCartItem,
+} = require("../controller/cartController");
 
-router.post("/add",auth,add);
+const { verifyToken } = require("../middleware/verifyToken");
 
-router.get("/",auth,view);
+router.post("/add", verifyToken, addToCart);
 
-router.put("/:id",auth,update);
+router.get("/getCart/:id", verifyToken, getCartItems);
 
-router.delete("/:id",auth,remove);
+router.put("/update/:id", verifyToken, updateCartQuantity);
 
-module.exports=router;
+router.delete("/delete/:id", verifyToken, deleteCartItem);
+
+module.exports = router;

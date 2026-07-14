@@ -1,185 +1,99 @@
-const pool=require("../database/db");
+const pool = require("../database/db");
 
-const addFood=async(
+// Add Food
+const createFood = async (
+  foodname,
+  description,
+  price,
+  category,
+  image
+) => {
+  const result = await pool.query(
+    `INSERT INTO foods
+    (foodname, description, price, category, image)
+    VALUES($1,$2,$3,$4,$5)
+    RETURNING *`,
+    [foodname, description, price, category, image]
+  );
 
-name,
-description,
-price,
-category,
-image
-
-)=>{
-
-const result=await pool.query(
-
-`
-INSERT INTO foods
-(
-name,
-description,
-price,
-category,
-image_url
-)
-
-VALUES($1,$2,$3,$4,$5)
-
-RETURNING *
-
-`,
-
-[
-name,
-description,
-price,
-category,
-image
-]
-
-);
-
-return result.rows[0];
-
+  return result.rows[0];
 };
 
-const getFoods=async()=>{
+// Get All Foods
+const getAllFood = async () => {
+  const result = await pool.query(
+    "SELECT * FROM foods ORDER BY id DESC"
+  );
 
-const result=await pool.query(
-
-`
-SELECT *
-
-FROM foods
-
-ORDER BY id DESC
-
-`
-
-);
-
-return result.rows;
-
+  return result.rows;
 };
 
-const getFoodById=async(id)=>{
+// Search Food
+const searchFood = async (keyword) => {
+  const result = await pool.query(
+    `SELECT * FROM foods
+     WHERE foodname ILIKE $1
+     OR category ILIKE $1`,
+    [`%${keyword}%`]
+  );
 
-const result=await pool.query(
-
-`
-SELECT *
-
-FROM foods
-
-WHERE id=$1
-
-`,
-
-[id]
-
-);
-
-return result.rows[0];
-
+  return result.rows;
 };
 
-const updateFood=async(
+// Get Food By ID
+const getFoodById = async (id) => {
+  const result = await pool.query(
+    "SELECT * FROM foods WHERE id=$1",
+    [id]
+  );
 
-id,
-name,
-description,
-price,
-category
-
-)=>{
-
-const result=await pool.query(
-
-`
-
-UPDATE foods
-
-SET
-
-name=$1,
-
-description=$2,
-
-price=$3,
-
-category=$4
-
-WHERE id=$5
-
-RETURNING *
-
-`,
-
-[
-name,
-description,
-price,
-category,
-id
-]
-
-);
-
-return result.rows[0];
-
+  return result.rows[0];
 };
 
-const deleteFood=async(id)=>{
-
-await pool.query(
-
-`
-
-DELETE FROM foods
-
-WHERE id=$1
-
-`,
-
-[id]
-
-);
-
+// Delete Food
+const deleteFoodById = async (id) => {
+  await pool.query(
+    "DELETE FROM foods WHERE id=$1",
+    [id]
+  );
 };
 
-const searchFood=async(name)=>{
+// Update Food
+const updateFoodById = async (
+  id,
+  foodname,
+  description,
+  price,
+  category,
+  image
+) => {
+  const result = await pool.query(
+    `UPDATE foods
+     SET foodname=$1,
+         description=$2,
+         price=$3,
+         category=$4,
+         image=$5
+     WHERE id=$6
+     RETURNING *`,
+    [
+      foodname,
+      description,
+      price,
+      category,
+      image,
+      id,
+    ]
+  );
 
-const result=await pool.query(
-
-`
-
-SELECT *
-
-FROM foods
-
-WHERE name ILIKE $1
-
-`,
-
-["%"+name+"%"]
-
-);
-
-return result.rows;
-
+  return result.rows[0];
 };
 
-module.exports={
-
-addFood,
-
-getFoods,
-
-getFoodById,
-
-updateFood,
-
-deleteFood,
-
-searchFood
-
+module.exports = {
+  createFood,
+  getAllFood,
+  searchFood,
+  getFoodById,
+  deleteFoodById,
+  updateFoodById,
 };

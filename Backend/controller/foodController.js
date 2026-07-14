@@ -1,141 +1,153 @@
-const{
+const {
+  createFood,
+  getAllFood,
+  searchFood,
+  getFoodById,
+  deleteFoodById,
+  updateFoodById,
+} = require("../model/foodModel");
 
-addFood,
+// Add Food
+const addFood = async (req, res) => {
+  try {
+    const { foodname, description, price, category } = req.body;
 
-getFoods,
+    const image = req.file ? req.file.filename : null;
 
-getFoodById,
+    if (!foodname || !description || !price || !category) {
+      return res.status(400).json({
+        message: "Field Empty",
+      });
+    }
 
-updateFood,
+    const food = await createFood(
+      foodname,
+      description,
+      price,
+      category,
+      image
+    );
 
-deleteFood,
-
-searchFood
-
-}=require("../model/foodModel");
-
-const createFood=async(req,res)=>{
-
-try{
-
-const{
-
-name,
-
-description,
-
-price,
-
-category
-
-}=req.body;
-
-const image=req.file.filename;
-
-const food=await addFood(
-
-name,
-
-description,
-
-price,
-
-category,
-
-image
-
-);
-
-res.status(201).json({
-
-message:"Food Added",
-
-food
-
-});
-
-}
-
-catch(err){
-
-res.status(500).json({
-
-error:err.message
-
-});
-
-}
-
+    res.status(201).json({
+      message: "Food Added Successfully",
+      food,
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: "Food Add Failed",
+      e: e.message,
+    });
+  }
 };
 
-const fetchFoods=async(req,res)=>{
+// Get All Food
+const getFoods = async (req, res) => {
+  try {
+    const { search } = req.query;
 
-const foods=await getFoods();
+    let foods;
 
-res.json(foods);
+    if (search) {
+      foods = await searchFood(search);
+    } else {
+      foods = await getAllFood();
+    }
 
+    res.status(200).json({
+      message: "Food Fetch Successful",
+      foods,
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: "Fetch Failed",
+      e: e.message,
+    });
+  }
 };
 
-const fetchFood=async(req,res)=>{
+// Get Food By ID
+const getFoodByID = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-const food=await getFoodById(req.params.id);
+    const food = await getFoodById(id);
 
-res.json(food);
+    if (!food) {
+      return res.status(404).json({
+        message: "Food Not Found",
+      });
+    }
 
+    res.status(200).json({
+      message: "Food Found",
+      food,
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: "Fetch Failed",
+      e: e.message,
+    });
+  }
 };
 
-const editFood=async(req,res)=>{
+// Delete Food
+const deleteFood = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-const food=await updateFood(
+    await deleteFoodById(id);
 
-req.params.id,
-
-req.body.name,
-
-req.body.description,
-
-req.body.price,
-
-req.body.category
-
-);
-
-res.json(food);
-
+    res.status(200).json({
+      message: "Food Deleted Successfully",
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: "Delete Failed",
+      e: e.message,
+    });
+  }
 };
 
-const removeFood=async(req,res)=>{
+// Update Food
+const updateFood = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-await deleteFood(req.params.id);
+    const { foodname, description, price, category } = req.body;
 
-res.json({
+    const image = req.file ? req.file.filename : null;
 
-message:"Food Deleted"
+    if (!foodname || !description || !price || !category) {
+      return res.status(400).json({
+        message: "Field Empty",
+      });
+    }
 
-});
+    const food = await updateFoodById(
+      id,
+      foodname,
+      description,
+      price,
+      category,
+      image
+    );
 
+    res.status(200).json({
+      message: "Food Updated Successfully",
+      food,
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: "Update Failed",
+      e: e.message,
+    });
+  }
 };
 
-const search=async(req,res)=>{
-
-const food=await searchFood(req.params.name);
-
-res.json(food);
-
-};
-
-module.exports={
-
-createFood,
-
-fetchFoods,
-
-fetchFood,
-
-editFood,
-
-removeFood,
-
-search
-
+module.exports = {
+  addFood,
+  getFoods,
+  getFoodByID,
+  deleteFood,
+  updateFood,
 };
