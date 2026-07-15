@@ -1,91 +1,47 @@
 const pool = require("../database/db");
 
-// Add Food
-const createFood = async (
-  foodname,
-  description,
-  price,
-  category,
-  image
-) => {
+const createFood = async (foodname, description, price, category, image) => {
   const result = await pool.query(
-    `INSERT INTO foods
-    (foodname, description, price, category, image)
-    VALUES($1,$2,$3,$4,$5)
-    RETURNING *`,
+    `INSERT INTO foods(foodname, description, price, category, image)
+     VALUES($1,$2,$3,$4,$5) RETURNING *`,
     [foodname, description, price, category, image]
   );
-
   return result.rows[0];
 };
 
-// Get All Foods
 const getAllFood = async () => {
-  const result = await pool.query(
-    "SELECT * FROM foods ORDER BY id DESC"
-  );
-
+  const result = await pool.query("SELECT * FROM foods ORDER BY id DESC");
   return result.rows;
 };
 
-// Search Food
 const searchFood = async (keyword) => {
   const result = await pool.query(
-    `SELECT * FROM foods
-     WHERE foodname ILIKE $1
-     OR category ILIKE $1`,
+    `SELECT * FROM foods WHERE foodname ILIKE $1 OR category ILIKE $1`,
     [`%${keyword}%`]
   );
-
   return result.rows;
 };
 
-// Get Food By ID
 const getFoodById = async (id) => {
-  const result = await pool.query(
-    "SELECT * FROM foods WHERE id=$1",
-    [id]
-  );
-
+  const result = await pool.query("SELECT * FROM foods WHERE id=$1", [id]);
   return result.rows[0];
 };
 
-// Delete Food
 const deleteFoodById = async (id) => {
-  await pool.query(
-    "DELETE FROM foods WHERE id=$1",
-    [id]
-  );
+  await pool.query("DELETE FROM foods WHERE id=$1", [id]);
 };
 
-// Update Food
-const updateFoodById = async (
-  id,
-  foodname,
-  description,
-  price,
-  category,
-  image
-) => {
-  const result = await pool.query(
-    `UPDATE foods
-     SET foodname=$1,
-         description=$2,
-         price=$3,
-         category=$4,
-         image=$5
-     WHERE id=$6
-     RETURNING *`,
-    [
-      foodname,
-      description,
-      price,
-      category,
-      image,
-      id,
-    ]
-  );
+const updateFoodById = async (id, foodname, description, price, category, image) => {
+  const query = image
+    ? `UPDATE foods SET foodname=$1, description=$2, price=$3, category=$4, image=$5
+       WHERE id=$6 RETURNING *`
+    : `UPDATE foods SET foodname=$1, description=$2, price=$3, category=$4
+       WHERE id=$5 RETURNING *`;
+  const params = image
+    ? [foodname, description, price, category, image, id]
+    : [foodname, description, price, category, id];
 
+  const result = await pool.query(query, params);
   return result.rows[0];
 };
 
