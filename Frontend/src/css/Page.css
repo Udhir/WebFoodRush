@@ -1,0 +1,62 @@
+.page{
+    width:80%;
+    max-width:900px;
+    margin:60px auto;
+}
+
+.page h1{
+    color:#ff6b00;
+    margin-bottom:20px;
+}
+
+.page h2, .page h3{
+    color:#333;
+    margin:15px 0 10px;
+}
+
+.page p{
+    color:#555;
+    line-height:26px;
+    margin-bottom:10px;
+}
+
+.page input,
+.page textarea{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:15px;
+}
+
+.page textarea{
+    height:120px;
+    resize:none;
+}
+
+.page button{
+    background:#ff6b00;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.page button:hover{
+    background:#e65c00;
+}
+
+.about-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+    margin-top:20px;
+}
+
+.about-grid ul{
+    padding-left:20px;
+    color:#555;
+}

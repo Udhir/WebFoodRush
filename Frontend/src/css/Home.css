@@ -1,0 +1,51 @@
+.hero {
+    width: 100%;
+    min-height: 45vh; /* 👈 Reduced this from 85vh to 45vh! */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 80px; /* 👈 Reduced the top/bottom padding from 60px to 40px */
+    background: #fff8f3;
+}
+
+.hero-left{
+    width:50%;
+}
+
+.hero-left h1{
+    font-size:40px; /* Kept this smaller so it looks good! */
+    color:#333;
+    margin-bottom:20px;
+}
+
+.hero-left p{
+    font-size:18px;
+    color:#555;
+    line-height:30px;
+    margin-bottom:30px;
+}
+
+.hero-left button{
+    padding:15px 35px;
+    border:none;
+    background:#ff6b00;
+    color:white;
+    border-radius:10px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.hero-left button:hover{
+    background:#e65c00;
+}
+
+.hero-right{
+    width:45%;
+    display:flex;
+    justify-content:center;
+}
+
+.hero-right img{
+    width:400px; 
+    max-width:100%;
+}
