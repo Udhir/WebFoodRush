@@ -20,10 +20,10 @@ router.post("/login", login);
 
 router.get("/getAll", verifyToken, isAdmin, getUsers);
 
-router.get("/getById/:id", getUserByIDDB);
+router.get("/getById/:id", verifyToken, getUserByIDDB);
 
-router.put("/updateById/:id", updateUserIDBD);
+router.put("/updateById/:id", verifyToken, isAdmin, updateUserIDBD);
 
-router.delete("/deleteById/:id", deleteUserByIDDB);
+router.delete("/deleteById/:id", verifyToken, isAdmin, deleteUserByIDDB);
 
 module.exports = router;

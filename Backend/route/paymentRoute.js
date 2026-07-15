@@ -1,43 +1,9 @@
-const router=require("express").Router();
+const router = require("express").Router();
+const { verifyToken } = require("../middleware/verifyToken");
+const { payCOD, payEsewa, history } = require("../controller/paymentController");
 
-const auth=require("../middleware/authMiddleware");
+router.post("/cod", verifyToken, payCOD);
+router.post("/esewa", verifyToken, payEsewa);
+router.get("/history", verifyToken, history);
 
-const{
-
-payCOD,
-payEsewa,
-history
-
-}=require("../controller/paymentController");
-
-router.post(
-
-"/cod",
-
-auth,
-
-payCOD
-
-);
-
-router.post(
-
-"/esewa",
-
-auth,
-
-payEsewa
-
-);
-
-router.get(
-
-"/history",
-
-auth,
-
-history
-
-);
-
-module.exports=router;
+module.exports = router;

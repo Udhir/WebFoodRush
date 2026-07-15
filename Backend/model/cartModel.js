@@ -20,6 +20,7 @@ const getCart = async (user_id) => {
         foods.foodname,
         foods.price,
         foods.image,
+        cart.food_id,
         cart.quantity
      FROM cart
      JOIN foods
