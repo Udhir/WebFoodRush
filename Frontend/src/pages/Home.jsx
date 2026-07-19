@@ -25,7 +25,7 @@ const Home = ({ search }) => {
 
   // 👈 This is the crash-proof, lightning-fast frontend search!
   const filteredFoods = allFoods.filter((food) => {
-    const foodName = food.name || "";
+    const foodName = food.foodname || "";
     const searchTerm = search || "";
     return foodName.toLowerCase().includes(searchTerm.toLowerCase());
   });

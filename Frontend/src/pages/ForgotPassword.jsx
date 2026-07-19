@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import API from "../service/Api";
 import "../css/Page.css";
 
@@ -9,11 +10,11 @@ function ForgotPassword() {
 
   const send = async () => {
     try {
-      const res = await API.post("/auth/forgot", { email });
-      alert(`OTP Sent: ${res.data.otp} (demo mode — normally emailed)`);
+      await API.post("/user/forgot-password", { email });
+      toast.success(`OTP Sent to your email!`);
       navigate("/reset-password");
     } catch (e) {
-      alert(e.response?.data?.message || "Failed to send OTP");
+      toast.error(e.response?.data?.message || "Failed to send OTP");
     }
   };
 

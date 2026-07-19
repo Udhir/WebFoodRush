@@ -1,8 +1,9 @@
 .food-container{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    display:flex;
+    flex-wrap: wrap;
     gap:30px;
-    padding:0 60px 60px;
+    padding:20px 60px 60px;
+    justify-content: center;
 }
 
 .food-card{
@@ -11,6 +12,9 @@
     overflow:hidden;
     box-shadow:0 5px 20px rgba(0,0,0,.08);
     transition:.3s;
+    position: relative;
+    width: 300px;
+    max-width: 100%;
 }
 
 .food-card:hover{
@@ -76,10 +80,21 @@
     background:#e65c00;
 }
 
-.food-container {
-    display: grid;
-    /* Changing auto-fit to auto-fill stops a single item from stretching across the entire screen! */
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px;
-    padding: 0 60px 60px;
+.favorite-icon { 
+    position: absolute; 
+    top: 10px; 
+    right: 10px; 
+    cursor: pointer; 
+    background: white; 
+    border-radius: 50%; 
+    padding: 8px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+    transition: transform 0.2s; 
+    z-index: 10; 
+} 
+.favorite-icon:hover { 
+    transform: scale(1.1); 
 }

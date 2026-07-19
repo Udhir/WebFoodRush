@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import API from "../service/Api";
 import "../css/Page.css";
 
@@ -11,11 +12,11 @@ function ResetPassword() {
 
   const reset = async () => {
     try {
-      const res = await API.post("/auth/reset", { email, otp, password });
-      alert(res.data.message || "Password Updated");
+      const res = await API.post("/user/reset-password", { email, otp, newPassword: password });
+      toast.success(res.data.message || "Password Updated");
       navigate("/login");
     } catch (e) {
-      alert(e.response?.data?.message || "Reset Failed");
+      toast.error(e.response?.data?.message || "Reset Failed");
     }
   };
 

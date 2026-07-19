@@ -1,5 +1,6 @@
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { useState } from "react";
+import { Toaster } from "react-hot-toast";
 // Components
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -23,6 +24,8 @@ import Profile from "./pages/Profile";
 import Payment from "./pages/Payment";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFailure from "./pages/PaymentFailure";
+import DemoPayment from "./pages/DemoPayment";
+import Favorites from "./pages/Favorites";
 import NotFound from "./pages/NotFound";
 
 // Admin Pages
@@ -67,12 +70,13 @@ function App() {
 
   return (
     <>
+      <Toaster position="top-right" />
       {/* Show Navbar on all pages EXCEPT admin pages */}
       {!isAdminPage && <Navbar search={search} setSearch={setSearch} />}
 
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/menu" element={<Home />} />
+        <Route path="/" element={<Home search={search} setSearch={setSearch} />} />
+        <Route path="/menu" element={<Home search={search} />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/faq" element={<FAQ />} />
@@ -85,8 +89,8 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/payment-failure" element={<PaymentFailure />} />
-        <Route path="/" element={<Home search={search} setSearch={setSearch} />} />
-        <Route path="/menu" element={<Home search={search} />} />
+        <Route path="/demo-payment" element={<DemoPayment />} />
+        <Route path="/favorites" element={<Favorites />} />
         {/* Protected Routes */}
         <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
         <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />

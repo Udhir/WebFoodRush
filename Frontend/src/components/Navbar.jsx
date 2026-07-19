@@ -38,18 +38,20 @@ const Navbar = ({ search, setSearch }) => {
         {/* 👈 FIXED: Now this will actually scroll down to the food! */}
         <li><a href="#menu">Menu</a></li>
         
+        <li><Link to="/favorites">Favorites</Link></li>
         <li><Link to="/about">About</Link></li>
         <li><Link to="/contact">Contact</Link></li>
-        {user && <li><Link to="/orders">Orders</Link></li>}
+        {user && (
+          <>
+            <li><Link to="/orders">Orders</Link></li>
+            <li><Link to="/cart">Cart</Link></li>
+          </>
+        )}
       </ul>
 
       <div className="nav-right">
         {user ? (
-          <>
-            <Link to="/cart"><FaShoppingCart /></Link>
-            <Link to="/profile"><FaUserCircle /></Link>
-            <button className="login-btn" onClick={handleLogout}>Logout</button>
-          </>
+          <button className="login-btn" onClick={handleLogout}>Logout</button>
         ) : (
           <Link to="/login">
             <button className="login-btn">Login</button>

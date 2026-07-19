@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import API from "../service/Api";
 import "../css/Checkout.css";
 
@@ -31,7 +32,7 @@ const Checkout = () => {
 
   const placeOrder = async () => {
     if (!address) {
-      alert("Enter Delivery Address");
+      toast.error("Enter Delivery Address");
       return;
     }
 
@@ -56,28 +57,15 @@ const Checkout = () => {
         const payRes = await API.post("/payment/esewa", { order_id: order.id, amount: total });
         const config = payRes.data.esewaConfig;
 
-        const form = document.createElement("form");
-        form.method = "POST";
-        form.action = ESEWA_TEST_URL;
-
-        Object.entries(config).forEach(([key, value]) => {
-          const input = document.createElement("input");
-          input.type = "hidden";
-          input.name = key;
-          input.value = value;
-          form.appendChild(input);
-        });
-
-        document.body.appendChild(form);
-        form.submit();
+        navigate('/demo-payment', { state: { config, cart } });
         return;
       }
 
       await API.post("/payment/cod", { order_id: order.id, amount: total });
-      alert("Order Placed Successfully");
+      toast.success("Order Placed Successfully");
       navigate("/orders");
     } catch (e) {
-      alert("Order Failed");
+      toast.error("Order Failed");
     }
   };
 
@@ -85,16 +73,47 @@ const Checkout = () => {
     <div className="checkout-container">
       <h1>Checkout</h1>
 
+      <div className="map-container">
+        <iframe
+          title="Location Map"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d56516.27689199342!2d85.28493297491413!3d27.708960341738127!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb198a307baabf%3A0xb5137c1bf18db1ea!2sKathmandu%2044600!5e0!3m2!1sen!2snp!4v1704256801293!5m2!1sen!2snp"
+          width="100%"
+          height="200"
+          style={{ border: 0, borderRadius: "8px", marginBottom: "20px" }}
+          allowFullScreen=""
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+
       <textarea
-        placeholder="Delivery Address"
+        placeholder="Enter Full Delivery Address"
         value={address}
         onChange={(e) => setAddress(e.target.value)}
       />
 
-      <select value={payment} onChange={(e) => setPayment(e.target.value)}>
-        <option>Cash On Delivery</option>
-        <option>eSewa</option>
-      </select>
+      <div className="payment-options">
+        <div 
+          className={`payment-card ${payment === "Cash On Delivery" ? "active" : ""}`}
+          onClick={() => setPayment("Cash On Delivery")}
+        >
+          <div className="payment-icon cod-icon">
+            &#8377; {/* Using a generic currency symbol or we could use an icon if imported */}
+          </div>
+          <span>Cash On Delivery</span>
+        </div>
+        
+        <div 
+          className={`payment-card ${payment === "eSewa" ? "active" : ""}`}
+          onClick={() => setPayment("eSewa")}
+        >
+          <img 
+            src="https://upload.wikimedia.org/wikipedia/commons/f/f2/ESewa_logo.png" 
+            alt="eSewa" 
+            className="esewa-logo"
+          />
+        </div>
+      </div>
 
       <h2>Total : Rs. {total}</h2>
 
