@@ -10,7 +10,7 @@ const createFood = async (foodname, description, price, category, image) => {
 };
 
 const getAllFood = async () => {
-  const result = await pool.query("SELECT * FROM foods ORDER BY id DESC");
+  const result = await pool.query("SELECT * FROM foods ORDER BY id ASC");
   return result.rows;
 };
 

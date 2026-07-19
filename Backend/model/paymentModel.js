@@ -11,7 +11,7 @@ const createPayment = async (user_id, order_id, amount, method, status, referenc
 
 const paymentHistory = async (user_id) => {
   const result = await pool.query(
-    "SELECT * FROM payments WHERE user_id=$1 ORDER BY id DESC",
+    "SELECT * FROM payments WHERE user_id=$1 ORDER BY id ASC",
     [user_id]
   );
   return result.rows;

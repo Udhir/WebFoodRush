@@ -10,6 +10,7 @@ const {
   deleteUserByIDDB,
   updateUserIDBD,
   forgotPassword,
+  verifyOtpController,
   resetPasswordDB,
 } = require("../controller/userController");
 
@@ -21,6 +22,8 @@ router.post("/create", addUser);
 router.post("/login", login);
 
 router.post("/forgot-password", forgotPassword);
+
+router.post("/verify-otp", verifyOtpController);
 
 router.post("/reset-password", resetPasswordDB);
 

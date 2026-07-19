@@ -14,14 +14,6 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const { saveOTP, verifyOTP, resetPassword } = require("../model/userModel");
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER || "foodrushproject@gmail.com", 
-    pass: process.env.EMAIL_PASS || "project123", 
-  },
-});
-
 // Create User
 const addUser = async (req, res) => {
   try {
@@ -205,26 +197,71 @@ const forgotPassword = async (req, res) => {
     const user = await existingUser(email);
     if (!user) return res.status(404).json({ message: "Email not found" });
 
-    // Generate 6-digit OTP (Static for university presentation)
-    const otp = "123456";
+    // Generate 6-digit random OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
     await saveOTP(email, otp);
 
+    const emailUser = process.env.EMAIL_USER;
+    const emailPass = process.env.EMAIL_PASS;
+
+    // If SMTP variables are missing, simulate sending by logging to console
+    if (!emailUser || !emailPass) {
+      console.log(`\n======================================================`);
+      console.log(`[OTP Verification] SMTP configurations are not fully set in backend/.env.`);
+      console.log(`[OTP Verification] Simulating email sending to: ${email}`);
+      console.log(`[OTP Verification] YOUR OTP CODE IS: ${otp}`);
+      console.log(`======================================================\n`);
+      
+      return res.status(200).json({ message: "OTP generated", testOtp: otp }); 
+    }
+
+    // If variables DO exist, attempt to send a real email
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: emailUser,
+        pass: emailPass,
+      },
+    });
+
     const mailOptions = {
-      from: '"FoodRush" <noreply@foodrush.com>',
+      from: '"FoodRush" <' + emailUser + '>',
       to: email,
-      subject: "Password Reset OTP",
+      subject: "Password Reset OTP - FoodRush",
       text: `Your password reset OTP is: ${otp}. It is valid for a short time.`,
+      html: `<h2>Password Reset</h2><p>Your password reset OTP is: <b>${otp}</b>. It is valid for a short time.</p>`
     };
 
     try {
       await transporter.sendMail(mailOptions);
+      console.log(`[OTP Verification] Real email sent successfully to ${email}`);
     } catch (mailError) {
-      console.log(`Failed to send email to ${email}`);
+      console.error("[OTP Verification] Email Error:", mailError.message);
+      console.log(`[OTP Verification] Dev Fallback - YOUR OTP CODE IS: ${otp}`);
     }
 
-    res.status(200).json({ message: "OTP sent to your email" }); 
+    res.status(200).json({ message: "OTP generated", testOtp: otp }); 
   } catch (e) {
     res.status(500).json({ message: "Request Failed", error: e.message });
+  }
+};
+
+// Verify OTP
+const verifyOtpController = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    if (!email || !otp) {
+      return res.status(400).json({ message: "Email and OTP are required" });
+    }
+
+    const user = await verifyOTP(email, otp);
+    if (!user) {
+      return res.status(400).json({ message: "Invalid or expired OTP" });
+    }
+
+    res.status(200).json({ message: "OTP verified successfully" });
+  } catch (e) {
+    res.status(500).json({ message: "Verification Failed", error: e.message });
   }
 };
 
@@ -258,5 +295,6 @@ module.exports = {
   deleteUserByIDDB,
   updateUserIDBD,
   forgotPassword,
+  verifyOtpController,
   resetPasswordDB,
 };

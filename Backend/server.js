@@ -20,6 +20,7 @@
   app.use("/api/order", require("./route/orderRoute"));
   app.use("/api/payment", require("./route/paymentRoute"));
   app.use("/api/dashboard", require("./route/dashboardRoute"));
+  app.use("/api/contact", require("./route/contactRoute"));
 
   app.get("/", (req, res) => res.send("FoodRush API is running"));
 

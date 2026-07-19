@@ -67,11 +67,41 @@ const payCOD = async (req, res) => {
   }
 };
 
+const payKhalti = async (req, res) => {
+  try {
+    const { order_id, amount } = req.body;
+    
+    const transaction_uuid = `KHALTI-${order_id}-${Date.now()}`;
+
+    const payment = await createPayment(
+      req.user.id,
+      order_id,
+      amount,
+      "Khalti",
+      "Pending",
+      transaction_uuid
+    );
+
+    res.json({
+      message: "Redirect to Khalti",
+      payment,
+      khaltiConfig: {
+        total_amount: amount,
+        transaction_uuid: transaction_uuid,
+        success_url: "http://localhost:5173/payment-success",
+        failure_url: "http://localhost:5173/payment-failure"
+      }
+    });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
 // Re-added the missing history function!
 const history = async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT * FROM payments WHERE user_id = $1 ORDER BY id DESC", 
+      "SELECT * FROM payments WHERE user_id = $1 ORDER BY id ASC", 
       [req.user.id]
     );
     res.status(200).json({ history: result.rows });
@@ -83,5 +113,6 @@ const history = async (req, res) => {
 module.exports = {
   payEsewa,
   payCOD,
+  payKhalti,
   history
 };

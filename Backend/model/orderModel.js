@@ -52,7 +52,7 @@ const getAllOrders = async () => {
      FROM orders
      JOIN users
      ON users.id = orders.user_id
-     ORDER BY orders.id DESC`
+     ORDER BY orders.id ASC`
   );
 
   return result.rows;
@@ -64,7 +64,7 @@ const getMyOrders = async (user_id) => {
     `SELECT *
      FROM orders
      WHERE user_id=$1
-     ORDER BY id DESC`,
+     ORDER BY id ASC`,
     [user_id]
   );
 
@@ -89,10 +89,9 @@ const updateStatus = async (
 
 // Delete Order
 const deleteOrderById = async (id) => {
-  await pool.query(
-    "DELETE FROM orders WHERE id=$1",
-    [id]
-  );
+  await pool.query("DELETE FROM payments WHERE order_id=$1", [id]);
+  await pool.query("DELETE FROM order_items WHERE order_id=$1", [id]);
+  await pool.query("DELETE FROM orders WHERE id=$1", [id]);
 };
 
 module.exports = {
