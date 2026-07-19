@@ -7,7 +7,7 @@ import FoodCard from "../components/FoodCard";
 import "../css/Home.css"; 
 import "../css/foodcard.css"; 
 
-const Home = ({ search }) => { 
+const Home = ({ search, setSearch }) => { 
   const [allFoods, setAllFoods] = useState([]);
 
   const getFoods = async () => {
@@ -36,7 +36,7 @@ const Home = ({ search }) => {
     <>
       <Hero />
       <div id="menu" style={{ scrollMarginTop: "100px" }}>
-        <CategoryList />
+        <CategoryList setSearch={setSearch} />
         <div className="food-container">
           {filteredFoods.map((food) => (
             <FoodCard key={food.id} food={food} />

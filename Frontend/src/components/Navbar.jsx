@@ -17,7 +17,7 @@ const Navbar = ({ search, setSearch }) => {
       
       <div className="nav-left">
         <div className="logo">
-          <Link to="/">
+          <Link to="/" onClick={() => setSearch("")}>
             <img src={logoImage} alt="Logo" />
           </Link>
         </div>
@@ -37,7 +37,7 @@ const Navbar = ({ search, setSearch }) => {
       </div>
 
       <ul className="nav-links">
-        <li><Link to="/">Home</Link></li>
+        <li><Link to="/" onClick={() => setSearch("")}>Home</Link></li>
         
         <li><a href="/#menu">Menu</a></li>
         

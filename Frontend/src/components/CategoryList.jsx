@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { GetCategories } from "../service/Api";
 import "../css/Category.css";
 
-const CategoryList = () => {
+const CategoryList = ({ setSearch }) => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -23,7 +23,12 @@ const CategoryList = () => {
       <h2>Categories</h2>
       <div className="category-list">
         {categories.map((cat) => (
-          <div key={cat.id} className="category-card">
+          <div 
+            key={cat.id} 
+            className="category-card" 
+            onClick={() => setSearch(cat.name)}
+            style={{ cursor: "pointer" }}
+          >
             <img
               src={`http://localhost:5000/uploads/${cat.image}`}
               alt={cat.name}
