@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import logoImage from "../assets/logo.png";
 import "../css/Navbar.css"; 
 
 const Navbar = ({ search, setSearch }) => {
@@ -16,7 +17,9 @@ const Navbar = ({ search, setSearch }) => {
       
       <div className="nav-left">
         <div className="logo">
-          <Link to="/">FoodRush</Link>
+          <Link to="/">
+            <img src={logoImage} alt="Logo" />
+          </Link>
         </div>
         
         <input 

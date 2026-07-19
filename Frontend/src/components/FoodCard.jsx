@@ -21,7 +21,7 @@ const FoodCard = ({ food }) => {
       toast.success("Removed from Favorites");
     } else {
       favorites.push(food.id);
-      toast.success("Added to Favorites ❤️");
+      toast.success("Added to Favorites");
     }
     localStorage.setItem("favorites", JSON.stringify(favorites));
     setIsFavorite(!isFavorite);

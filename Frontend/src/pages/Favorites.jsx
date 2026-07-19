@@ -34,7 +34,7 @@ const Favorites = () => {
 
   return (
     <div style={{ minHeight: "70vh", padding: "40px" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "30px", color: "#333" }}>Your Favorites ❤️</h1>
+      <h1 style={{ textAlign: "center", marginBottom: "30px", color: "#333" }}>Your Favorites </h1>
       {loading ? (
         <p style={{ textAlign: "center" }}>Loading...</p>
       ) : favoriteFoods.length === 0 ? (

@@ -22,7 +22,9 @@
     margin-bottom:20px;
 }
 
-.sidebar a{
+.sidebar a,
+.sidebar a:visited,
+.sidebar a:active {
     color:white;
     text-decoration:none;
     font-size:18px;

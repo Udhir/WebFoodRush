@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { GetOrders, UpdateOrderStatus } from "../service/Api";
+import { GetOrders, UpdateOrderStatus, DeleteOrder } from "../service/Api";
+import toast from "react-hot-toast";
 
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
@@ -20,6 +21,18 @@ const AdminOrders = () => {
   const update = async (id, status) => {
     await UpdateOrderStatus(id, { status });
     load();
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this order?")) {
+      try {
+        await DeleteOrder(id);
+        toast.success("Order deleted successfully");
+        load();
+      } catch (e) {
+        toast.error("Failed to delete order");
+      }
+    }
   };
 
   return (
@@ -49,7 +62,7 @@ const AdminOrders = () => {
                 <td>{order.fullname}</td>
                 <td>Rs. {order.total_price}</td>
                 <td>{order.status}</td>
-                <td>
+                <td style={{ display: "flex", gap: "10px", alignItems: "center" }}>
                   <select 
                     value={order.status} 
                     onChange={(e) => update(order.id, e.target.value)}
@@ -60,6 +73,12 @@ const AdminOrders = () => {
                     <option>On The Way</option>
                     <option>Delivered</option>
                   </select>
+                  <button 
+                    onClick={() => handleDelete(order.id)}
+                    style={{ background: "#ff3b3b", color: "#fff", border: "none", padding: "6px 12px", borderRadius: "4px", cursor: "pointer", fontSize: "14px", fontWeight: "600" }}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

@@ -17,5 +17,6 @@ export const GetFoods = (search = "") => API.get("/food/getAll", { params: { sea
 export const DeleteFood = (id) => API.delete(`/food/deleteById/${id}`);
 export const GetOrders = () => API.get("/order/getAll");
 export const UpdateOrderStatus = (id, data) => API.put(`/order/status/${id}`, data);
+export const DeleteOrder = (id) => API.delete(`/order/delete/${id}`);
 export const GetUsers = (search = "") => API.get("/user/getAll", { params: { search } });
 export const DeleteUser = (id) => API.delete(`/user/deleteById/${id}`);

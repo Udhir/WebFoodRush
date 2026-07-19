@@ -19,7 +19,7 @@ import Orders from "./pages/Orders";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
+import OtpVerification from "./pages/OtpVerification";
 import Payment from "./pages/Payment";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFailure from "./pages/PaymentFailure";
@@ -34,6 +34,10 @@ import AddFood from "./pages/AddFood";
 import EditFood from "./pages/EditFood";
 import AdminOrders from "./components/AdminOrders";
 import ManageUsers from "./pages/ManageUsers";
+import ManageCategories from "./pages/ManageCategories";
+import AddCategory from "./pages/AddCategory";
+import EditCategory from "./pages/EditCategory";
+import ManageContacts from "./pages/ManageContacts";
 
 
 // --- Define Route Protections Here ---
@@ -63,7 +67,11 @@ function App() {
     "/add-food",
     "/edit-food",
     "/manage-orders",
-    "/manage-users"
+    "/manage-users",
+    "/manage-categories",
+    "/add-category",
+    "/edit-category",
+    "/manage-contacts"
   ];
   const isAdminPage = adminRoutes.some((route) => location.pathname.startsWith(route));
 
@@ -85,7 +93,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/otp-verification" element={<OtpVerification />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/payment-failure" element={<PaymentFailure />} />
         <Route path="/demo-payment" element={<DemoPayment />} />
@@ -103,6 +111,10 @@ function App() {
         <Route path="/edit-food/:id" element={<AdminRoute><EditFood /></AdminRoute>} />
         <Route path="/manage-orders" element={<AdminRoute><AdminOrders /></AdminRoute>} />
         <Route path="/manage-users" element={<AdminRoute><ManageUsers /></AdminRoute>} />
+        <Route path="/manage-categories" element={<AdminRoute><ManageCategories /></AdminRoute>} />
+        <Route path="/add-category" element={<AdminRoute><AddCategory /></AdminRoute>} />
+        <Route path="/edit-category/:id" element={<AdminRoute><EditCategory /></AdminRoute>} />
+        <Route path="/manage-contacts" element={<AdminRoute><ManageContacts /></AdminRoute>} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

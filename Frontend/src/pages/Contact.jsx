@@ -1,4 +1,6 @@
 import { useState } from "react";
+import API from "../service/Api";
+import toast from "react-hot-toast";
 
 import "../css/Page.css";
 function Contact() {
@@ -6,12 +8,22 @@ function Contact() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    alert("Message Sent");
-    setName("");
-    setEmail("");
-    setMessage("");
+    if (!name || !email || !message) {
+      toast.error("Please fill all fields");
+      return;
+    }
+    
+    try {
+      const response = await API.post("/contact/submit", { name, email, message });
+      toast.success(response.data.message || "Message Sent");
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to send message");
+    }
   };
 
   return (

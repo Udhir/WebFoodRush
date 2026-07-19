@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import foodImage from "../assets/food.jpg";
 import "../css/Hero.css";
 
 const Hero = () => (
@@ -9,7 +10,7 @@ const Hero = () => (
       <Link to="/menu"><button>Order Now</button></Link>
     </div>
     <div className="hero-right">
-      <img src="/hero-food.png" alt="Food" />
+      <img src={foodImage} alt="Food" />
     </div>
   </div>
 );

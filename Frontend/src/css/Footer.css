@@ -17,3 +17,19 @@ footer h2, footer h3{
 footer p{
     color:#ccc;
 }
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footer-links a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: #ff6b00;
+}
