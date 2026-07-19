@@ -10,6 +10,17 @@ const {
 
 const bcrypt = require("bcrypt");
 const JWT = require("jsonwebtoken");
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
+const { saveOTP, verifyOTP, resetPassword } = require("../model/userModel");
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER || "foodrushproject@gmail.com", 
+    pass: process.env.EMAIL_PASS || "project123", 
+  },
+});
 
 // Create User
 const addUser = async (req, res) => {
@@ -17,36 +28,22 @@ const addUser = async (req, res) => {
     const { fullname, email, password } = req.body;
 
     if (!fullname || !email || !password) {
-      return res.status(400).json({
-        message: "Fields cannot be empty",
-      });
+      return res.status(400).json({ message: "Fields cannot be empty" });
     }
 
     const userExist = await existingUser(email);
-
     if (userExist) {
-      return res.status(400).json({
-        message: "Email already registered",
-      });
+      return res.status(400).json({ message: "Email already registered" });
     }
 
+    const role = email.toLowerCase().endsWith("@foodrush.com") ? "admin" : "user";
+
     const hashPassword = await bcrypt.hash(password, 10);
+    const user = await createUser(fullname, email, hashPassword, role);
 
-    const user = await createUser(
-      fullname,
-      email,
-      hashPassword
-    );
-
-    res.status(201).json({
-      message: "User Created Successfully",
-      user,
-    });
+    res.status(201).json({ message: "User Created Successfully", user });
   } catch (e) {
-    res.status(500).json({
-      message: "User Creation Failed",
-      error: e.message,
-    });
+    res.status(500).json({ message: "User Creation Failed", error: e.message });
   }
 };
 
@@ -69,10 +66,7 @@ const login = async (req, res) => {
       });
     }
 
-    const match = await bcrypt.compare(
-      password,
-      user.password
-    );
+    const match = await bcrypt.compare(password, user.password);
 
     if (!match) {
       return res.status(400).json({
@@ -179,7 +173,6 @@ const deleteUserByIDDB = async (req, res) => {
 const updateUserIDBD = async (req, res) => {
   try {
     const { id } = req.params;
-
     const { fullname, email, password } = req.body;
 
     if (!fullname || !email || !password) {
@@ -189,13 +182,7 @@ const updateUserIDBD = async (req, res) => {
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
-
-    const user = await updateById(
-      id,
-      fullname,
-      email,
-      hashPassword
-    );
+    const user = await updateById(id, fullname, email, hashPassword);
 
     res.status(200).json({
       message: "User Updated Successfully",
@@ -209,6 +196,60 @@ const updateUserIDBD = async (req, res) => {
   }
 };
 
+// Forgot Password
+const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ message: "Email is required" });
+
+    const user = await existingUser(email);
+    if (!user) return res.status(404).json({ message: "Email not found" });
+
+    // Generate 6-digit OTP (Static for university presentation)
+    const otp = "123456";
+    await saveOTP(email, otp);
+
+    const mailOptions = {
+      from: '"FoodRush" <noreply@foodrush.com>',
+      to: email,
+      subject: "Password Reset OTP",
+      text: `Your password reset OTP is: ${otp}. It is valid for a short time.`,
+    };
+
+    try {
+      await transporter.sendMail(mailOptions);
+    } catch (mailError) {
+      console.log(`Failed to send email to ${email}`);
+    }
+
+    res.status(200).json({ message: "OTP sent to your email" }); 
+  } catch (e) {
+    res.status(500).json({ message: "Request Failed", error: e.message });
+  }
+};
+
+// Reset Password
+const resetPasswordDB = async (req, res) => {
+  try {
+    const { email, otp, newPassword } = req.body;
+    if (!email || !otp || !newPassword) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const user = await verifyOTP(email, otp);
+    if (!user) {
+      return res.status(400).json({ message: "Invalid or expired OTP" });
+    }
+
+    const hashPassword = await bcrypt.hash(newPassword, 10);
+    await resetPassword(email, hashPassword);
+
+    res.status(200).json({ message: "Password reset successful" });
+  } catch (e) {
+    res.status(500).json({ message: "Reset Failed", error: e.message });
+  }
+};
+
 module.exports = {
   addUser,
   login,
@@ -216,4 +257,6 @@ module.exports = {
   getUserByIDDB,
   deleteUserByIDDB,
   updateUserIDBD,
+  forgotPassword,
+  resetPasswordDB,
 };

@@ -9,6 +9,8 @@ const {
   getUserByIDDB,
   deleteUserByIDDB,
   updateUserIDBD,
+  forgotPassword,
+  resetPasswordDB,
 } = require("../controller/userController");
 
 const { verifyToken } = require("../middleware/verifyToken");
@@ -17,6 +19,10 @@ const { isAdmin } = require("../middleware/authMiddleware");
 router.post("/create", addUser);
 
 router.post("/login", login);
+
+router.post("/forgot-password", forgotPassword);
+
+router.post("/reset-password", resetPasswordDB);
 
 router.get("/getAll", verifyToken, isAdmin, getUsers);
 

@@ -9,7 +9,7 @@ const dashboard = async (req, res) => {
     const recentOrders = await pool.query(
       `SELECT orders.id, users.fullname AS name, orders.total_price, orders.status
        FROM orders JOIN users ON users.id = orders.user_id
-       ORDER BY orders.id DESC LIMIT 5`
+       ORDER BY orders.id DESC`
     );
 
     res.status(200).json({
