@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import "../css/Navbar.css"; 
 
 const Navbar = ({ search, setSearch }) => {
@@ -27,7 +26,9 @@ const Navbar = ({ search, setSearch }) => {
           value={search || ""}
           onChange={(e) => {
             setSearch(e.target.value);
-            navigate("/#menu");
+            if (window.location.pathname !== "/") {
+              navigate("/");
+            }
           }}
         />
       </div>
@@ -35,8 +36,7 @@ const Navbar = ({ search, setSearch }) => {
       <ul className="nav-links">
         <li><Link to="/">Home</Link></li>
         
-        {/* 👈 FIXED: Now this will actually scroll down to the food! */}
-        <li><a href="#menu">Menu</a></li>
+        <li><a href="/#menu">Menu</a></li>
         
         <li><Link to="/favorites">Favorites</Link></li>
         <li><Link to="/about">About</Link></li>
