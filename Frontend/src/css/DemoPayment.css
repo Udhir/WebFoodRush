@@ -431,3 +431,46 @@
         grid-template-columns: 1fr;
     }
 }
+
+.gateway-order-qty{
+  color: #666;
+  font-size: 14px;
+}
+
+.gateway-order-price{
+  font-weight: 700;
+  color: #ff6b00;
+}
+
+.gateway-summary-address{
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gateway-brand-logo-khalti{
+  max-height: 32px;
+  width: auto;
+}
+
+.gateway-brand-row-centered{
+  justify-content: center;
+}
+
+.gateway-cod-title{
+  margin: 0;
+  color: #ff6b00;
+  font-size: 18px;
+}
+
+.gateway-cod-note{
+  color: #666;
+  line-height: 1.5;
+  font-size: 15px;
+  margin: 0;
+}
+
+.gateway-actions-cod{
+  margin-top: 20px;
+}

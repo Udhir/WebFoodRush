@@ -10,7 +10,7 @@ const KHALTI_LOGO = "https://blog.khalti.com/wp-content/uploads/2025/07/Khalti-L
 const DemoPayment = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const { cart = [], totalAmount = 0, address = "" } = location.state || {};
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -40,7 +40,7 @@ const DemoPayment = () => {
 
   const handleProcessOrder = async (action) => {
     if (!user) return;
-    
+
     if (selectedOption === "esewa" && action === "success") {
       if (!esewaId.trim() || !password.trim()) {
         setError("Please enter eSewa ID and Password.");
@@ -63,7 +63,6 @@ const DemoPayment = () => {
         price: item.price,
       }));
 
-      // Map our selected option to backend payment method name
       let dbMethod = "Cash On Delivery";
       if (selectedOption === "esewa") dbMethod = "eSewa";
       if (selectedOption === "khalti") dbMethod = "Khalti";
@@ -81,38 +80,47 @@ const DemoPayment = () => {
       if (selectedOption === "esewa") {
         const payRes = await API.post("/payment/esewa", { order_id: order.id, amount: totalAmount });
         const config = payRes.data.esewaConfig;
-        
+
+        await API.post("/payment/update-status", {
+          reference: config.transaction_uuid,
+          status: action === "success" ? "Completed" : "Failed",
+        });
+
         if (action === "success") {
-            const payload = {
-                status: "COMPLETE",
-                transaction_uuid: config.transaction_uuid,
-                total_amount: config.total_amount
-            };
-            const base64Data = btoa(JSON.stringify(payload));
-            window.location.href = `${config.success_url}?data=${base64Data}`;
-            return;
+          const payload = {
+            status: "COMPLETE",
+            transaction_uuid: config.transaction_uuid,
+            total_amount: config.total_amount,
+          };
+          const base64Data = btoa(JSON.stringify(payload));
+          window.location.href = `${config.success_url}?data=${base64Data}`;
+          return;
         } else {
-            window.location.href = config.failure_url;
-            return;
+          window.location.href = config.failure_url;
+          return;
         }
       } else if (selectedOption === "khalti") {
         const payRes = await API.post("/payment/khalti", { order_id: order.id, amount: totalAmount });
         const config = payRes.data.khaltiConfig;
-        
+
+        await API.post("/payment/update-status", {
+          reference: config.transaction_uuid,
+          status: action === "success" ? "Completed" : "Failed",
+        });
+
         if (action === "success") {
-            window.location.href = `${config.success_url}?transaction_uuid=${config.transaction_uuid}`;
-            return;
+          window.location.href = `${config.success_url}?transaction_uuid=${config.transaction_uuid}`;
+          return;
         } else {
-            window.location.href = config.failure_url;
-            return;
+          window.location.href = config.failure_url;
+          return;
         }
       } else {
-        // COD
+        // COD — stays "Pending" until delivery, that's correct as-is
         await API.post("/payment/cod", { order_id: order.id, amount: totalAmount });
         toast.success("Order Placed Successfully via Cash on Delivery!");
         navigate("/orders");
       }
-
     } catch (err) {
       setError(err.response?.data?.message || "Failed to process the order. Please try again.");
     } finally {
@@ -217,9 +225,9 @@ const DemoPayment = () => {
                     </div>
                     <div className="gateway-order-copy">
                       <strong>{item.foodname}</strong>
-                      <span style={{ color: "#666", fontSize: "14px" }}>Qty: {item.quantity}</span>
+                      <span className="gateway-order-qty">Qty: {item.quantity}</span>
                     </div>
-                    <span style={{ fontWeight: 700, color: "#ff6b00" }}>
+                    <span className="gateway-order-price">
                       Rs. {item.price * item.quantity}
                     </span>
                   </div>
@@ -239,7 +247,7 @@ const DemoPayment = () => {
                 </div>
                 <div>
                   <span>Delivery To</span>
-                  <strong style={{ fontSize: "14px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{address}</strong>
+                  <strong className="gateway-summary-address">{address}</strong>
                 </div>
               </div>
 
@@ -297,7 +305,7 @@ const DemoPayment = () => {
               ) : selectedOption === "khalti" ? (
                 <form className="gateway-form" onSubmit={(e) => e.preventDefault()}>
                   <div className="gateway-brand-row">
-                    <img src={KHALTI_LOGO} alt="Khalti" className="gateway-brand-logo" style={{ maxHeight: "32px", width: "auto" }} />
+                    <img src={KHALTI_LOGO} alt="Khalti" className="gateway-brand-logo gateway-brand-logo-khalti" />
                   </div>
                   <label className="gateway-field">
                     <span>Mobile Number</span>
@@ -340,13 +348,13 @@ const DemoPayment = () => {
                 </form>
               ) : (
                 <form className="gateway-form" onSubmit={(e) => e.preventDefault()}>
-                  <div className="gateway-brand-row" style={{ justifyContent: "center" }}>
-                    <h3 style={{ margin: 0, color: "#ff6b00", fontSize: "18px" }}>Cash On Delivery</h3>
+                  <div className="gateway-brand-row gateway-brand-row-centered">
+                    <h3 className="gateway-cod-title">Cash On Delivery</h3>
                   </div>
-                  <p style={{ color: "#666", lineHeight: 1.5, fontSize: "15px", margin: 0 }}>
+                  <p className="gateway-cod-note">
                     You have selected Cash on Delivery. Please keep exact change ready when your food arrives!
                   </p>
-                  <div className="gateway-actions" style={{ marginTop: "20px" }}>
+                  <div className="gateway-actions gateway-actions-cod">
                     <button
                       type="button"
                       className="gateway-btn gateway-btn-primary"
