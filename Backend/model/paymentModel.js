@@ -17,4 +17,12 @@ const paymentHistory = async (user_id) => {
   return result.rows;
 };
 
-module.exports = { createPayment, paymentHistory };
+const updatePaymentStatus = async (reference, status) => {
+  const result = await pool.query(
+    "UPDATE payments SET status=$1 WHERE reference=$2 RETURNING *",
+    [status, reference]
+  );
+  return result.rows[0];
+};
+
+module.exports = { createPayment, paymentHistory, updatePaymentStatus };

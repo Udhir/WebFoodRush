@@ -1,4 +1,4 @@
-const { createPayment } = require("../model/paymentModel");
+const { createPayment, updatePaymentStatus } = require("../model/paymentModel");
 const crypto = require("crypto");
 const pool = require("../database/db");
 
@@ -110,9 +110,35 @@ const history = async (req, res) => {
   }
 };
 
+const updateStatus = async (req, res) => {
+  try {
+    const { reference, status } = req.body;
+
+    if (!reference || !status) {
+      return res.status(400).json({ message: "reference and status are required" });
+    }
+
+    const payment = await updatePaymentStatus(reference, status);
+
+    // Keep the order in sync too — Completed payment should move order out of "Pending"
+    if (status === "Completed" && payment) {
+      await pool.query(
+        "UPDATE orders SET status='Preparing' WHERE id=$1",
+        [payment.order_id]
+      );
+    }
+
+    res.json({ message: "Payment Status Updated", payment });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
+
 module.exports = {
   payEsewa,
   payCOD,
   payKhalti,
-  history
+  history,
+  updateStatus,
 };
