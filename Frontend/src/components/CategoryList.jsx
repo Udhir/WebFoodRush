@@ -23,11 +23,12 @@ const CategoryList = ({ setSearch }) => {
       <h2>Categories</h2>
       <div className="category-list">
         {categories.map((cat) => (
-          <div 
+          <button
+            type="button"
             key={cat.id} 
             className="category-card" 
             onClick={() => setSearch(cat.name)}
-            style={{ cursor: "pointer" }}
+            aria-label={`Show ${cat.name} foods`}
           >
             <img
               src={`http://localhost:5000/uploads/${cat.image}`}
@@ -35,7 +36,7 @@ const CategoryList = ({ setSearch }) => {
               style={{ width: "60px", height: "60px", objectFit: "cover", borderRadius: "50%" }}
             />
             <h4>{cat.name}</h4>
-          </div>
+          </button>
         ))}
       </div>
     </div>

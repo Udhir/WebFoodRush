@@ -31,8 +31,8 @@ const Orders = () => {
             <h3>Order ID : {order.id}</h3>
             <p>Total : Rs. {order.total_price}</p>
             <p>Payment : {order.payment_method}</p>
-            <p>Status : {order.status}</p>
-            <p>Address : {order.address}</p>
+            <p>Status : <span className={`order-status status-${String(order.status).toLowerCase().replaceAll(" ", "-")}`}>{order.status}</span></p>
+            <p>Address : {order.address || "Not provided"}</p>
           </div>
         ))
       )}

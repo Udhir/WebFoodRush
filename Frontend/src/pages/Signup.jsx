@@ -100,6 +100,7 @@ const Signup = () => {
           <form onSubmit={registerUser}>
             <div className="login-input-wrapper">
               <input
+                aria-label="Full Name"
                 type="text"
                 placeholder="Full Name"
                 className="login-input"
@@ -113,6 +114,7 @@ const Signup = () => {
 
             <div className="login-input-wrapper">
               <input
+                aria-label="Email"
                 type="email"
                 placeholder="Email"
                 className="login-input"
@@ -159,9 +161,9 @@ const Signup = () => {
 
           <p className="login-text">
             Already have an account?
-            <span className="login-link" onClick={() => navigate("/login")}>
+            <button type="button" className="login-link login-link-button" onClick={() => navigate("/login")}>
               {" "}Login
-            </span>
+            </button>
           </p>
         </div>
       </div>

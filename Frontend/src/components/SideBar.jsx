@@ -19,7 +19,7 @@ const Sidebar = () => {
         <li><Link to="/manage-categories">Manage Categories</Link></li>
         <li><Link to="/manage-orders">Manage Orders</Link></li>
         <li><Link to="/manage-contacts">Manage Messages</Link></li>
-        <li><Link to="#" onClick={handleLogout}>Logout</Link></li>
+        <li><button type="button" className="sidebar-logout" onClick={handleLogout}>Logout</button></li>
       </ul>
     </div>
   );

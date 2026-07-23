@@ -7,7 +7,7 @@ const Hero = () => (
     <div className="hero-left">
       <h1>Delicious Food<br />Delivered Fast</h1>
       <p>Order your favourite meals from the best restaurants near you and enjoy fast delivery with FoodRush.</p>
-      <Link to="/menu"><button>Order Now</button></Link>
+      <a href="/#menu" className="hero-cta">Order Now</a>
     </div>
     <div className="hero-right">
       <img src={foodImage} alt="Food" />

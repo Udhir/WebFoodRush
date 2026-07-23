@@ -36,15 +36,32 @@
     margin-bottom:20px;
 }
 
-.food-info input{
+.quantity-control {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:20px;
+}
+
+.quantity-control input{
     width:100px;
     height:45px;
-    margin-bottom:20px;
-    padding-left:10px;
+    padding:0 8px;
+    text-align:center;
     font-size:18px;
 }
 
-.food-info button{
+.quantity-control button {
+    width:45px;
+    height:45px;
+    padding:0;
+    border:1px solid #ff6b00;
+    background:white;
+    color:#ff6b00;
+    font-size:24px;
+}
+
+.food-info > button{
     display:block;
     background:#ff6b00;
     color:white;
@@ -55,6 +72,26 @@
     font-size:17px;
 }
 
-.food-info button:hover{
+.food-info > button:hover{
     background:#e65c00;
+}
+
+@media (max-width: 720px) {
+    .food-details {
+        width:100%;
+        margin:0 auto;
+        padding:28px 20px 40px;
+        gap:28px;
+    }
+
+    .food-details img {
+        width:100%;
+        height:auto;
+        max-height:380px;
+    }
+
+    .food-info {
+        min-width:0;
+        width:100%;
+    }
 }

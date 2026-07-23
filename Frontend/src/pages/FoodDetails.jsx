@@ -50,7 +50,11 @@ const FoodDetails = () => {
         <h1>{food.foodname}</h1>
         <p>{food.description}</p>
         <h2>Rs. {food.price}</h2>
-        <input type="number" min="1" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
+        <div className="quantity-control" aria-label="Quantity">
+          <button type="button" onClick={() => setQuantity((value) => Math.max(1, value - 1))} aria-label="Decrease quantity">−</button>
+          <input aria-label="Food quantity" type="number" min="1" value={quantity} onChange={(e) => setQuantity(Math.max(1, Number(e.target.value) || 1))} />
+          <button type="button" onClick={() => setQuantity((value) => value + 1)} aria-label="Increase quantity">+</button>
+        </div>
         <button onClick={addToCart}>Add To Cart</button>
       </div>
     </div>

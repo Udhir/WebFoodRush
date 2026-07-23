@@ -99,6 +99,7 @@ const Login = () => {
           <form onSubmit={loginUser}>
             <div className="login-input-wrapper">
               <input
+                aria-label="Email"
                 type="email"
                 placeholder="Email"
                 className="login-input"
@@ -147,9 +148,9 @@ const Login = () => {
 
           <p className="login-text">
             Don't have an account?
-            <span className="login-link" onClick={() => navigate("/signup")}>
+            <button type="button" className="login-link login-link-button" onClick={() => navigate("/signup")}>
               {" "}Sign Up
-            </span>
+            </button>
           </p>
         </div>
       </div>

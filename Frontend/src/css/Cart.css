@@ -80,3 +80,61 @@
 .total-box button:hover{
     background:#e65c00;
 }
+
+.cart-subtotal {
+    margin-top:6px;
+    font-weight:700;
+}
+
+.cart-empty {
+    max-width:560px;
+    margin:0 auto;
+    padding:48px 24px;
+    border-radius:16px;
+    background:white;
+    text-align:center;
+    box-shadow:0 4px 16px rgba(0,0,0,.08);
+}
+
+.cart-empty p {
+    margin:12px 0 24px;
+    color:#666;
+}
+
+.cart-empty button {
+    padding:12px 22px;
+    border-radius:8px;
+    background:#ff6b00;
+    color:white;
+}
+
+@media (max-width: 640px) {
+    .cart-container {
+        width:100%;
+        padding:0 16px;
+    }
+
+    .cart-card {
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .cart-card img {
+        width:100%;
+        height:220px;
+    }
+
+    .cart-info {
+        margin-left:0;
+    }
+
+    .cart-card > button {
+        width:100%;
+    }
+
+    .total-box {
+        align-items:stretch;
+        flex-direction:column;
+        text-align:left;
+    }
+}

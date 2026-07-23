@@ -18,6 +18,8 @@ const Cart = () => {
   };
 
   const deleteItem = async (id) => {
+    if (!window.confirm("Remove this item from your cart?")) return;
+
     try {
       await API.delete(`/cart/delete/${id}`);
       getCart();
@@ -37,7 +39,11 @@ const Cart = () => {
       <h1>My Cart</h1>
 
       {cart.length === 0 ? (
-        <h2>Your Cart is Empty</h2>
+        <div className="cart-empty">
+          <h2>Your Cart is Empty</h2>
+          <p>Browse the menu and add something delicious.</p>
+          <button type="button" onClick={() => navigate("/#menu")}>Browse Foods</button>
+        </div>
       ) : (
         <>
           {cart.map((item) => (
@@ -46,7 +52,8 @@ const Cart = () => {
               <div className="cart-info">
                 <h2>{item.foodname}</h2>
                 <p>Quantity : {item.quantity}</p>
-                <h3>Rs. {item.price}</h3>
+                <h3>Rs. {item.price} each</h3>
+                <p className="cart-subtotal">Subtotal: Rs. {item.price * item.quantity}</p>
               </div>
               <button onClick={() => deleteItem(item.id)}>Remove</button>
             </div>

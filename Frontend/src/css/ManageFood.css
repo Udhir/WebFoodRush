@@ -76,3 +76,35 @@ table img{
     border-radius:5px;
     cursor:pointer;
 }
+
+@media (max-width: 900px) {
+    .manage-food {
+        flex-direction:column;
+    }
+
+    .manage-food-content {
+        margin-left:0;
+        padding:20px;
+        overflow-x:auto;
+    }
+
+    .manage-food-content table {
+        min-width:720px;
+    }
+}
+
+@media (max-width: 560px) {
+    .manage-food-content {
+        padding:14px;
+    }
+
+    .food-header {
+        align-items:flex-start;
+        flex-direction:column;
+        gap:14px;
+    }
+
+    .manage-food-content input {
+        width:100%;
+    }
+}

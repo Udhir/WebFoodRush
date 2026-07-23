@@ -33,3 +33,49 @@
 .sidebar a:hover{
     color:#ffe3d0;
 }
+
+.sidebar-logout {
+    padding:0;
+    background:transparent;
+    color:white;
+    font-size:18px;
+}
+
+.sidebar-logout:hover {
+    color:#ffe3d0;
+}
+
+@media (max-width: 900px) {
+    .sidebar {
+        position:relative;
+        width:100%;
+        min-height:auto;
+        padding:22px;
+    }
+
+    .sidebar h2 {
+        margin-bottom:20px;
+        text-align:left;
+    }
+
+    .sidebar ul {
+        display:grid;
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+        gap:8px 18px;
+    }
+
+    .sidebar li {
+        margin:0;
+    }
+
+    .sidebar a,
+    .sidebar a:visited,
+    .sidebar a:active,
+    .sidebar-logout {
+        display:block;
+        width:100%;
+        padding:8px 0;
+        text-align:left;
+        font-size:16px;
+    }
+}
