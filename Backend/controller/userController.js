@@ -25,7 +25,7 @@ const addUser = async (req, res) => {
 
     const userExist = await existingUser(email);
     if (userExist) {
-      return res.status(400).json({ message: "Email already registered" });
+      return res.status(409).json({ message: "Email already registered" });
     }
 
     const role = email.toLowerCase().endsWith("@foodrush.com") ? "admin" : "user";
@@ -53,7 +53,7 @@ const login = async (req, res) => {
     const user = await existingUser(email);
 
     if (!user) {
-      return res.status(404).json({
+      return res.status(401).json({
         message: "Email is not registered",
       });
     }
@@ -61,7 +61,7 @@ const login = async (req, res) => {
     const match = await bcrypt.compare(password, user.password);
 
     if (!match) {
-      return res.status(400).json({
+      return res.status(401).json({
         message: "Password Incorrect",
       });
     }

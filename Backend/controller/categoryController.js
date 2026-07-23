@@ -72,9 +72,13 @@ const getCategoryByIDDB = async (req, res) => {
 
   try {
 
-    const category = await getCategoryById(
-      req.params.id
-    );
+    const category = await getCategoryById(req.params.id);
+
+    if (!category) {
+      return res.status(404).json({
+        message: "Category Not Found",
+      });
+    }
 
     res.status(200).json({
       message: "Success",
