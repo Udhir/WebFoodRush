@@ -9,13 +9,6 @@ const createPayment = async (user_id, order_id, amount, method, status, referenc
   return result.rows[0];
 };
 
-const paymentHistory = async (user_id) => {
-  const result = await pool.query(
-    "SELECT * FROM payments WHERE user_id=$1 ORDER BY id ASC",
-    [user_id]
-  );
-  return result.rows;
-};
 
 const updatePaymentStatus = async (reference, status) => {
   const result = await pool.query(
@@ -25,4 +18,4 @@ const updatePaymentStatus = async (reference, status) => {
   return result.rows[0];
 };
 
-module.exports = { createPayment, paymentHistory, updatePaymentStatus };
+module.exports = { createPayment, updatePaymentStatus };
