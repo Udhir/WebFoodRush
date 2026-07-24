@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import foodImage from "../assets/food.jpg";
 import "../css/Hero.css";
 

@@ -10,7 +10,6 @@ const Checkout = () => {
   const [cart, setCart] = useState([]);
   const [selectedItemIds, setSelectedItemIds] = useState([]);
   const [address, setAddress] = useState("");
-  const [submitting, setSubmitting] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -152,7 +151,7 @@ const Checkout = () => {
                     background: "rgba(255, 107, 0, 0.1)", border: "1px solid rgba(255, 107, 0, 0.2)",
                     color: "#cc5500", fontSize: "14px", lineHeight: "1.5"
                 }}>
-                  On the next screen you can choose eSewa or Cash on Delivery.
+                  On the next screen you can choose eSewa, Khalti, or Cash on Delivery.
                 </div>
               </>
             ) : (

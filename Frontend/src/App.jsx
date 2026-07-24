@@ -17,6 +17,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import OtpVerification from "./pages/OtpVerification";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentFailure from "./pages/PaymentFailure";
 import DemoPayment from "./pages/DemoPayment";
 import Favorites from "./pages/Favorites";
 import NotFound from "./pages/NotFound";
@@ -85,6 +87,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/otp-verification" element={<OtpVerification />} />
+        <Route path="/payment-success" element={<PaymentSuccess />} />
+        <Route path="/payment-failure" element={<PaymentFailure />} />
         <Route path="/demo-payment" element={<DemoPayment />} />
         <Route path="/favorites" element={<Favorites />} />
         {/* Protected Routes */}
