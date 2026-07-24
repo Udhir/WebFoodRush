@@ -79,19 +79,6 @@ const Checkout = () => {
           <section className="checkout-panel">
             <h2 className="checkout-section-label">Delivery Details</h2>
             
-            <div className="map-container">
-              <iframe
-                title="Location Map"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d56516.27689199342!2d85.28493297491413!3d27.708960341738127!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb198a307baabf%3A0xb5137c1bf18db1ea!2sKathmandu%2044600!5e0!3m2!1sen!2snp!4v1704256801293!5m2!1sen!2snp"
-                width="100%"
-                height="150"
-                style={{ border: 0 }}
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
-            </div>
-
             <textarea
               className="checkout-address-input"
               placeholder="Enter Full Delivery Address"
