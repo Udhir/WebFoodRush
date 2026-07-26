@@ -11,22 +11,34 @@ const {
 const placeOrder = async (req, res) => {
   try {
     const {
-      user_id,
       total_price,
       payment_method,
+      address,
       items,
     } = req.body;
 
-    if (!user_id || !total_price || !payment_method) {
+    // Take the user ID securely from the JWT token
+    const user_id = req.user.id;
+
+    if (
+      !user_id ||
+      !total_price ||
+      !payment_method ||
+      !address?.trim() ||
+      !Array.isArray(items) ||
+      items.length === 0
+    ) {
       return res.status(400).json({
-        message: "Field Empty",
+        message: "Please provide all order details.",
       });
     }
 
+    // Address was missing here before
     const order = await createOrder(
       user_id,
       total_price,
-      payment_method
+      payment_method,
+      address.trim()
     );
 
     for (const item of items) {
@@ -38,14 +50,16 @@ const placeOrder = async (req, res) => {
       );
     }
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "Order Placed Successfully",
       order,
     });
   } catch (e) {
-    res.status(500).json({
+    console.error("Order creation error:", e.message);
+
+    return res.status(500).json({
       message: "Order Failed",
-      e: e.message,
+      error: e.message,
     });
   }
 };
