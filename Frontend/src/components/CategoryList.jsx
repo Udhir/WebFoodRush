@@ -33,7 +33,7 @@ const CategoryList = ({ setSearch }) => {
             <img
               src={`http://localhost:5000/uploads/${cat.image}`}
               alt={cat.name}
-              style={{ width: "60px", height: "60px", objectFit: "cover", borderRadius: "50%" }}
+              style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "50%" }}
             />
             <h4>{cat.name}</h4>
           </button>

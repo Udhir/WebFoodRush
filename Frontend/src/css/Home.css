@@ -1,4 +1,22 @@
+.home-page {
+  width: 100%;
+  flex: 1;
+}
+
+.menu-section {
+  width: 100%;
+  scroll-margin-top: 100px;
+}
+
 .food-container {
-    width:min(1320px, 100%);
-    margin:0 auto;
+  width: min(1320px, 100%);
+  margin: 0 auto;
+}
+
+.food-message {
+  width: 100%;
+  padding: 50px 20px;
+  text-align: center;
+  color: #666;
+  font-size: 18px;
 }
