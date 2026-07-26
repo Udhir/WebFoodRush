@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "../css/Topbar.css";
 
 const Topbar = () => {
@@ -6,7 +7,14 @@ const Topbar = () => {
   return (
     <div className="topbar">
       <h2>Admin Dashboard</h2>
-      <h3>Welcome, {user?.fullname}</h3>
+
+      <div className="topbar-right">
+        <h3>Welcome, {user?.fullname || "Admin"}</h3>
+
+        <Link to="/" className="go-to-site-btn">
+          Go to Site
+        </Link>
+      </div>
     </div>
   );
 };

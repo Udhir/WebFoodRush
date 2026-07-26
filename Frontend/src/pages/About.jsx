@@ -6,8 +6,7 @@ function About() {
       <div className="about-header">
         <h1>About FoodRush</h1>
         <p>
-          FoodRush is a modern online food ordering platform developed using
-          React, Node.js, Express and PostgreSQL.
+          FoodRush is a modern online food ordering developed platform that connects customers with their favorite food establishments.
         </p>
       </div>
 
